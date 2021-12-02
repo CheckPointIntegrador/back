@@ -24,29 +24,33 @@ public class CategoryService {
         return new CategoryDto(categoryRepository.save(category));
     }
 
-    public List<CategoryDto>  listCategories(){
+    public List<CategoryDto>listCategories(){
         List<CategoryEntity> listEntities = new ArrayList<>();
         listEntities.addAll(categoryRepository.findAll());
         List<CategoryDto> listDto = new ArrayList<>();
-        listEntities.forEach( categoryEntity -> {
+        listEntities.forEach(categoryEntity -> {
             CategoryDto productDto = new CategoryDto(categoryRepository.getById(categoryEntity.getId()));
             listDto.add(productDto);
         });
         return listDto;
     }
 
-    public Set<ProductDto> listProductsCategory(String typeCategory){
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(typeCategory);
-        CategoryEntity category = new CategoryEntity(categoryDto);
-        CategoryEntity getCategory = categoryRepository.getById(category.getId());
+//    public Set<ProductDto> listProductsCategory(String typeCategory){
+//        CategoryDto categoryDto = new CategoryDto();
+//        categoryDto.setName(typeCategory);
+//        CategoryEntity category = new CategoryEntity(categoryDto);
+//        CategoryEntity getCategory = categoryRepository.getById(category.getId());
+//
+//        Set<ProductDto> productDtoSet = new HashSet<>();
+//        getCategory.getProducts().forEach( productEntity -> {
+//            ProductDto productDto = new ProductDto(productEntity);
+//            productDtoSet.add(productDto);
+//        });
+//
+//        return productDtoSet;
+//    }
 
-        Set<ProductDto> productDtoSet = new HashSet<>();
-        getCategory.getProducts().forEach( productEntity -> {
-            ProductDto productDto = new ProductDto(productEntity);
-            productDtoSet.add(productDto);
-        });
-
-        return productDtoSet;
+    public CategoryDto getById(Integer id){
+        return new CategoryDto(categoryRepository.getById(id));
     }
 }

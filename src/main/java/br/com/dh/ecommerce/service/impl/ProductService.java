@@ -2,6 +2,7 @@ package br.com.dh.ecommerce.service;
 
 import br.com.dh.ecommerce.dto.ProductDto;
 import br.com.dh.ecommerce.persistence.entities.ProductEntity;
+import br.com.dh.ecommerce.persistence.repository.CategoryRepository;
 import br.com.dh.ecommerce.persistence.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +16,15 @@ public class ProductService{
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-    public Optional<List<ProductEntity>> listCategory(String category){
-
+    public List<ProductEntity>searchByCategoryName(String category){
         return productRepository.searchByCategory(category);
     }
 
-    public ProductDto createProduct(ProductDto productDto){
-        ProductEntity product = new ProductEntity(productDto);
-        return new ProductDto(productRepository.save(product));
-    }
-
     public ProductDto searchById(Integer id){
-        ProductDto productDto = new ProductDto(productRepository.getById(id));
-        return productDto;
+        return new ProductDto(productRepository.getById(id));
     }
 
     public List<ProductDto> listAll(){
@@ -42,4 +38,11 @@ public class ProductService{
 
         return productDtoList;
     }
+
+    public ProductDto createProduct(ProductDto productDto){
+        ProductEntity product = new ProductEntity(productDto);
+        product.setCategory(categoryRepository.getById(productDto.getCategory().getId()));
+        return new ProductDto(productRepository.save(product));
+    }
+
 }
