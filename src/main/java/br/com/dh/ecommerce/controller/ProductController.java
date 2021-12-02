@@ -1,15 +1,13 @@
 package br.com.dh.ecommerce.controller;
 
+import br.com.dh.ecommerce.model.ProductModel;
 import br.com.dh.ecommerce.dto.ProductDto;
-import br.com.dh.ecommerce.persistence.entities.ProductEntity;
-import br.com.dh.ecommerce.service.ProductService;
-import org.apache.catalina.connector.Response;
+import br.com.dh.ecommerce.service.impl.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -18,27 +16,32 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    //Método GET - 'https://ctdcommerce.com/products':
-    // este end-point deverá disponibilizar os dados de todos os produtos cadastrados em um JSON
     @GetMapping
-    public ResponseEntity<List<ProductDto>> metodo(){
-        return ResponseEntity.ok(productService.listAll());
+    public ResponseEntity<List<ProductDto>> listAllProducts(){
+        List<ProductDto> productDtoList = productService.listAll();
+        if(!productDtoList.isEmpty())
+            return ResponseEntity.ok(productDtoList);
+        return ResponseEntity.notFound().build();
     }
 
-    //Método GET - https://ctdcommerce.com/products/1:
-    // este end-point deverá disponibilizar os dados de um produto específico em um JSON
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> metodo2(@PathVariable Integer id){
-        return ResponseEntity.ok(productService.searchById(id));
+    public ResponseEntity<ProductDto> findProductById(@PathVariable Integer id){
+        ProductDto productDto = productService.searchById(id);
+        if(productDto!=null)
+            return ResponseEntity.ok(productDto);
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<ProductDto>>searchByCategory(@PathVariable String category){
+        List<ProductDto> productDtoList = productService.searchByCategoryName(category);
+        if(!productDtoList.isEmpty())
+            return ResponseEntity.ok(productDtoList);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ProductDto> createProduct (@RequestBody ProductDto productDto){
-        return ResponseEntity.ok(productService.createProduct(productDto));
-    }
-
-    @GetMapping("/category/{type}")
-    public ResponseEntity<Optional<List<ProductEntity>>> findByCategory(@PathVariable String type){
-        return ResponseEntity.ok(productService.listCategory(type));
+    public ResponseEntity<ProductModel> createProduct(@RequestBody ProductModel productModel){
+        return ResponseEntity.ok(productService.save(productModel));
     }
 }

@@ -1,4 +1,9 @@
 package br.com.dh.ecommerce.service;
 
-public interface EcommerceService {
+
+import java.util.List;
+
+public interface IecommerceService<T> {
+    T searchById(Integer id);
+    List<T> listAll();
 }

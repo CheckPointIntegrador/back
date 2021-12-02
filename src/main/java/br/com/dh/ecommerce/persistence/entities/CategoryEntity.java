@@ -1,6 +1,6 @@
 package br.com.dh.ecommerce.persistence.entities;
 
-import br.com.dh.ecommerce.dto.CategoryDto;
+import br.com.dh.ecommerce.model.CategoryModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +14,7 @@ import java.util.Set;
 @Table(name = "categories")
 public class CategoryEntity {
     @Id
-    @SequenceGenerator(name = "sequenceCategory", sequenceName = "sequenceCategory", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceCategory")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -27,7 +26,7 @@ public class CategoryEntity {
 
     public CategoryEntity(){}
 
-    public CategoryEntity(CategoryDto category) {
+    public CategoryEntity(CategoryModel category) {
         this.id = category.getId();
         this.name = category.getName();
     }

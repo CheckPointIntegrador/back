@@ -1,56 +1,47 @@
-package br.com.dh.ecommerce.service;
+package br.com.dh.ecommerce.service.impl;
 
-import br.com.dh.ecommerce.dto.CategoryDto;
-import br.com.dh.ecommerce.dto.ProductDto;
+import br.com.dh.ecommerce.model.CategoryModel;
 import br.com.dh.ecommerce.persistence.entities.CategoryEntity;
 import br.com.dh.ecommerce.persistence.repository.CategoryRepository;
+import br.com.dh.ecommerce.service.IecommerceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class CategoryService {
+public class CategoryService implements IecommerceService<CategoryModel> {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryDto createCategory(String nameCategory){
-        CategoryEntity category = new CategoryEntity();
-        category.setName(nameCategory);
-        return new CategoryDto(categoryRepository.save(category));
+
+    @Override
+    public CategoryModel searchById(Integer id){
+        return new CategoryModel(categoryRepository.getById(id));
     }
 
-    public List<CategoryDto>listCategories(){
+    @Override
+    public List<CategoryModel>listAll(){
         List<CategoryEntity> listEntities = new ArrayList<>();
         listEntities.addAll(categoryRepository.findAll());
-        List<CategoryDto> listDto = new ArrayList<>();
+        List<CategoryModel> listModel = new ArrayList<>();
         listEntities.forEach(categoryEntity -> {
-            CategoryDto productDto = new CategoryDto(categoryRepository.getById(categoryEntity.getId()));
-            listDto.add(productDto);
+            CategoryModel productDto = new CategoryModel(categoryRepository.getById(categoryEntity.getId()));
+            listModel.add(productDto);
         });
-        return listDto;
+        return listModel;
     }
 
-//    public Set<ProductDto> listProductsCategory(String typeCategory){
-//        CategoryDto categoryDto = new CategoryDto();
-//        categoryDto.setName(typeCategory);
-//        CategoryEntity category = new CategoryEntity(categoryDto);
-//        CategoryEntity getCategory = categoryRepository.getById(category.getId());
-//
-//        Set<ProductDto> productDtoSet = new HashSet<>();
-//        getCategory.getProducts().forEach( productEntity -> {
-//            ProductDto productDto = new ProductDto(productEntity);
-//            productDtoSet.add(productDto);
-//        });
-//
-//        return productDtoSet;
-//    }
-
-    public CategoryDto getById(Integer id){
-        return new CategoryDto(categoryRepository.getById(id));
+    public List<String>listAllCategoryName(){
+        return categoryRepository.findAllCategoryName();
     }
+
+    public CategoryModel save(CategoryModel categoryModel){
+        CategoryEntity category = categoryRepository.save(new CategoryEntity(categoryModel));
+        return new CategoryModel(category);
+    }
+
 }

@@ -1,6 +1,6 @@
 package br.com.dh.ecommerce.persistence.entities;
 
-import br.com.dh.ecommerce.dto.ProductDto;
+import br.com.dh.ecommerce.model.ProductModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +13,7 @@ import javax.persistence.*;
 public class ProductEntity {
 
     @Id
-    @SequenceGenerator(name = "sequenceProduct", sequenceName = "sequenceProduct", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceProduct")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -36,7 +35,7 @@ public class ProductEntity {
 
     public ProductEntity(){}
 
-    public ProductEntity(ProductDto product){
+    public ProductEntity(ProductModel product){
         this.id = product.getId();
         this.title = product.getTitle();
         this.price = product.getPrice();
