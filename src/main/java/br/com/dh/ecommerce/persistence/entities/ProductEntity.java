@@ -23,10 +23,10 @@ public class ProductEntity {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "description", length = 255, nullable = false)
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
 
-    @Column(name = "image", length = 255, nullable = false)
+    @Column(name = "image", columnDefinition = "TEXT", nullable = false)
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
