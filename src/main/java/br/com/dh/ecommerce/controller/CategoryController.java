@@ -14,6 +14,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/categories")
     public ResponseEntity<List<String>> listCategories(){
         List<String> categoryDtos = categoryService.listAllCategoryName();
@@ -22,6 +23,7 @@ public class CategoryController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/add")
     public ResponseEntity<CategoryModel> createCategory(@RequestBody CategoryModel categoryDto){
         return ResponseEntity.ok(categoryService.save(categoryDto));

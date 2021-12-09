@@ -16,6 +16,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @CrossOrigin(origins = "*")
     @GetMapping
     public ResponseEntity<List<ProductDto>> listAllProducts(){
         List<ProductDto> productDtoList = productService.listAll();
@@ -24,6 +25,7 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> findProductById(@PathVariable Integer id){
         ProductDto productDto = productService.searchById(id);
@@ -32,6 +34,7 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductDto>>searchByCategory(@PathVariable String category){
         List<ProductDto> productDtoList = productService.searchByCategoryName(category);
@@ -40,6 +43,7 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/add")
     public ResponseEntity<ProductModel> createProduct(@RequestBody ProductModel productModel){
         return ResponseEntity.ok(productService.save(productModel));
