@@ -6,13 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @GetMapping
+    public ResponseEntity<List<String>> defaultEndpoint(){
+        List<String> endPoints = new ArrayList<>();
+        endPoints.add("/categories");
+        endPoints.add("/products");
+        endPoints.add("/products/{id}");
+        endPoints.add("/products/category/{category}");
+        return ResponseEntity.ok(endPoints);
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/categories")
