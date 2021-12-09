@@ -1,3 +1,5 @@
+
+
 INSERT INTO categories (name) VALUES
     ('suculentas'),
     ('cactos'),
