@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/buscar/{input}")
+    @GetMapping("/search/{input}")
     public ResponseEntity<List<ProductDto>>searchByCategoryOrName(@PathVariable String input){
         List<ProductDto> productDtoList = productService.searchByCategoryOrTitle(input);
         if(!productDtoList.isEmpty())

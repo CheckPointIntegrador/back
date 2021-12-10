@@ -22,6 +22,7 @@ public class CategoryController {
         endPoints.add("/products");
         endPoints.add("/products/{id}");
         endPoints.add("/products/category/{category}");
+        endPoints.add("/products/search/{input}");
         return ResponseEntity.ok(endPoints);
     }
 
