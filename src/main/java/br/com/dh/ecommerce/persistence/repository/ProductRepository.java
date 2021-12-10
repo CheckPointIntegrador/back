@@ -13,4 +13,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
     List<ProductEntity> searchByCategoryName(String category);
 
+    @Query("SELECT p FROM ProductEntity p WHERE p.category LIKE CONCAT('%', :input, '%') OR p.title LIKE CONCAT('%', :input, '%')")
+    List<ProductEntity> searchByCategoryOrTitle(String input);
+
 }

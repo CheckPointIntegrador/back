@@ -33,6 +33,12 @@ public class ProductService implements IecommerceService<ProductDto> {
         return new ProductDto(productRepository.getById(id));
     }
 
+    public List<ProductDto> searchByCategoryOrTitle(String input){
+        return productRepository.searchByCategoryOrTitle(input)
+                .stream()
+                .map(ProductDto::new)
+                .collect(Collectors.toList());
+    }
 
     public List<ProductDto> listAll(){
         List<ProductEntity> productEntityList = new ArrayList<>();

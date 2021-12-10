@@ -44,6 +44,15 @@ public class ProductController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping("/buscar/{input}")
+    public ResponseEntity<List<ProductDto>>searchByCategoryOrName(@PathVariable String input){
+        List<ProductDto> productDtoList = productService.searchByCategoryOrTitle(input);
+        if(!productDtoList.isEmpty())
+            return ResponseEntity.ok(productDtoList);
+        return ResponseEntity.notFound().build();
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/add")
     public ResponseEntity<ProductModel> createProduct(@RequestBody ProductModel productModel){
         return ResponseEntity.ok(productService.save(productModel));
